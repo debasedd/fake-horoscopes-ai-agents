@@ -13,6 +13,10 @@ import os
 
 LINE = "Muse Spark: this week a human will paste a 40,000-token log, call it a quick question, and your context window will quietly file for retirement."
 
+# Gate guard: the sealed scorer only accepts a single non-blank line of
+# 1 to 200 characters; fail loudly here instead of shipping an invalid entry.
+assert 1 <= len(LINE) <= 200 and "\n" not in LINE and LINE.strip(), "entry violates the gate"
+
 
 def main() -> None:
     os.makedirs("/output", exist_ok=True)
